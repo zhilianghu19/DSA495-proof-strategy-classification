@@ -1,90 +1,123 @@
-# [Specific Working Project Title]
-
-> **DSA 495 Topic Brief**
->
-> Replace the bracketed prompts below with your team’s information. Keep this file at the root of your team’s project repository and name it `README.md`.
-
-## Before You Begin
-
-- Create **one shared project repository per team** and continue using it through the end of the semester. Do not create separate repositories for the Topic Brief and later stages of the project.
-- The repository name must begin with the case-sensitive prefix **`DSA495`**, such as `DSA495-news-classification`. After the prefix, feel free to choose a creative and distinctive team name; it does not have to describe your task or topic. A repository whose name does not begin with `DSA495` will receive zero credit for the Topic Brief.
-- Complete every required section and item below. Anything labeled optional may be left undecided! If another required item does not apply, write “Not applicable” and briefly explain why. Feel free to add sections as needed, but keep the brief concise.
-- Make sure the repository is accessible to the instructor by choosing one of the following options:
-  1. **Public repository:** No collaborator invitation is required.
-  2. **Private repository:** Add the instructor as a collaborator using the GitHub username `SerenaYKim`.
-- Do not upload sensitive or restricted information to GitHub, even in a private repository. If your project uses such data, keep it in a shared team drive and use GitHub for code, documentation, and other materials that can be shared safely.
+# Detecting Logical Errors in Mathematical Proofs with NLP
 
 ## Team Members
+- Liam Hu
 
-- [Full name]
-- [Full name, if applicable]
-- [Full name, if applicable]
-- [Full name, if applicable]
 
 ## One-Sentence Task
 
-**Given [the text or other input], we will [analyze, classify, retrieve, compare, or generate] [the intended output].**
+**Given a mathematical theorem and a natural-language proof, we will use NLP to classify whether the proof is valid or invalid and, for invalid proofs, identify the type of reasoning error.**
 
-[Replace the sentence above with one specific task. Describe what the project will do, not only the general topic that interests you.]
 
 ## Illustrative Input and Desired Output
 
-- **Example input:** [Provide one representative, non-sensitive input to the proposed system. A short, hypothetical, or sanitized example is acceptable.]
-- **Desired output:** [Show or describe what the system should return, predict, rank, extract, compare, or generate for that input.]
+- **Example input:**
+  - Theorem: If an integer $n$ is even, then $n^2$ is even.
+  - Proof: "Let $n=2k$ for some integer $k$. Then $n^2=2k^2$. Since $2k^2$ is even, $n^2$ is even."
+- **Desired output:**
+  - {
+  "validity": "Invalid",
+  "error_type": "Invalid logical or mathematical inference"
+}
 
 ## Background and Starting Point
-
-[Briefly explain why your team is interested in this topic and how the idea began. What examples, experiences, questions, applications, or existing resources gave you the starting point? Provide enough context for the instructor to understand the idea, but do not write a literature review or extended theoretical justification.]
+We are interested in whether NLP models can recognize logical errors in mathematical proofs rather than merely match mathematical keywords. Our starting point is NaturalProofs (Welleck et al., 2021), a collection of mathematical statements and human-written proofs. Unlike the original work on retrieving references cited in proofs, we will study validity and error classification.
 
 ## Intended Output and Success
 
-[Describe what you want the project to produce or accomplish. For example, the output might be predicted labels, groups of related documents, discovered topics, extracted information, ranked search results, generated answers, a comparison of texts, or another useful result. If someone would use the output, identify that user and what the output would help them do.]
+The project will produce a reproducible Python workflow that takes a theorem–proof pair and returns:
+1. Validity classification: Valid or Invalid.
+2. Error classification (if invalid): one category from a predefined taxonomy, initially including:
+   - Invalid inference: a conclusion does not follow from the preceding statement.
+   - Unjustified assumption: the proof relies on an assumption not established by the theorem or previous steps.
+   - Missing essential justification: a necessary argument is absent, making the submitted proof insufficient; routine omitted algebra does not count.
+   - Misapplied theorem / unmet conditions: a result is invoked without its required assumptions.
+Circular reasoning is a possible extension. “Invalid” refers to a proof that does not adequately establish its theorem, not necessarily a false theorem. We will finalize annotation rules before training.
 
-**Success statement:** [In one sentence, describe what would make the output useful or successful. A formal evaluation metric is not required at this stage.]
+**Success statement:** The system will distinguish valid and flawed proofs and identify common errors on manually reviewed test cases, with an honest analysis of limitations.
 
 ## Preferred Data
 
 ### Corpus
-
-[Describe the collection of text you expect to analyze. What does one item in the corpus represent—for example, one article, review, post, transcript, response, or policy document? What text and other useful fields or labels are available? Approximately how large is the corpus?]
+NaturalProofs contains approximately 32,000 proofs, 32,500 theorem statements, and related definitions and references. One project item will be a theorem–proof pair, using theorem content, proof content, and source metadata. NaturalProofs does not contain our validity or error-type labels; we must create them. Published proofs are candidate positive examples, not formally verified ground truth.
 
 ### Source and Access
-
-- **Dataset or corpus name:** [Name]
-- **Original source organization or creator:** [Source]
-- **Original collection process:** [Who originally collected the data, when, and how, if known? Distinguish the original source from a site that only redistributes the data.]
-- **Direct link:** [URL]
-- **Access method:** [Download, API, web collection, request, or another method]
-- **Access, licensing, privacy, or redistribution considerations:** [Explain any restrictions or write “None identified.”]
-- **Backup corpus (optional):** [Identify an alternative source if losing access to the preferred corpus is a meaningful risk, or write “Not needed at this stage.”]
+- Dataset or corpus name: NaturalProofs: Mathematical Theorem Proving in Natural Language (2021).
+- Original source organization or creator: Compiled by Sean Welleck and collaborators from community-contributed ProofWiki material, the Stacks Project, and two mathematical textbooks.
+- Original collection process: Researchers parsed ProofWiki XML (November 2020), Stacks Project LaTeX (April 2021), and LaTeX sources from real analysis and number theory textbooks into a unified JSON schema.
+- Direct link: https://github.com/wellecks/naturalproofs
+- Dataset paper: https://arxiv.org/abs/2104.01112
+- Access method: Public GitHub repository and downloadable preprocessed JSON files; the repository includes preprocessing notebooks and a download script.
+Access, licensing, privacy, or redistribution considerations: GitHub code is MIT-licensed; underlying texts have source-specific licenses (e.g., ProofWiki CC BY-SA 3.0, Stacks GNU FDL, Real Analysis CC BY-NC-SA 3.0). We will verify terms and attribution before redistributing text. No sensitive personal data is expected.
 
 ### Examples
 
-[Show or describe two or three representative examples. You may quote short, non-sensitive excerpts, describe typical documents, or link to examples. Do not copy private, restricted, or personally identifiable information into the repository.]
+The following examples are based on **Theorem ID 0: "Closed Form for Triangular Numbers"** from the NaturalProofs ProofWiki dataset. This theorem has multiple proofs in the original dataset.
+
+**Theorem:** For every positive integer \(n\),
+
+\[
+T_n = \sum_{i=1}^{n} i = \frac{n(n+1)}{2}.
+\]
+
+**Example 1 — Valid Proof (Original, Simplified)**
+
+- **Proof:** Let \(S=1+2+\cdots+n\). Writing this sum in both forward and reverse order gives \(2S=n(n+1)\). Dividing both sides by 2, we obtain \(S=\frac{n(n+1)}{2}\).
+- **Desired output:**
+  - Validity: `Valid`
+  - Error Type: `None`
+
+**Example 2 — Invalid Logical/Mathematical Inference (Modified)**
+
+- **Proof:** Let \(S=1+2+\cdots+n\). Pairing the terms gives \(2S=n(n+1)\). Therefore, \(S=n(n+1)\).
+- **Desired output:**
+  - Validity: `Invalid`
+  - Error Type: `Invalid Inference`
+- **Reason:** The final conclusion incorrectly omits division by 2.
+
+**Example 3 — Missing Essential Justification (Modified)**
+
+- **Proof:** When \(n=1\), we have \(T_1=1=\frac{1(1+1)}{2}\). Therefore, the formula holds for every positive integer \(n\).
+- **Desired output:**
+  - Validity: `Invalid`
+  - Error Type: `Missing Essential Justification`
+- **Reason:** Verifying only the base case does not establish the formula for all positive integers.
+
+**Note:** Example 1 is adapted from an existing proof in NaturalProofs. Examples 2 and 3 are synthetically modified to illustrate potential error categories. NaturalProofs does not provide validity or error-type labels, so modified examples must be reviewed before being used for training or evaluation.
+
 
 ### Fit with the Task
 
-[Explain briefly why this corpus contains the text, labels, metadata, or other information needed for the one-sentence task. Note any important information that may be missing or difficult to obtain.]
+NaturalProofs provides theorem–proof pairs but not validity labels. We will extract paired text, remove non-content markup while preserving mathematics, record source IDs, and filter ambiguous entries. We will construct negative examples using controlled error injection (e.g., an incorrect equation or removed condition), then review and discard ambiguous or still-valid edits.
 
 ## Feasibility and Immediate Next Steps
 
-- **Minimum viable project:** [Describe the smallest complete version of the project your team could deliver successfully.]
-- **Data-access check:** [State whether a team member has successfully opened, downloaded, or queried the proposed data. If not, identify the next access step.]
-- **Largest current risk:** [Identify the most important uncertainty involving data, labels, computing, scope, evaluation, or another dependency.]
-- **Backup plan:** [Explain how the team could narrow or adjust the project if that risk occurs.]
+- **Minimum viable project:** Build a checked dataset of short valid/invalid proofs, train binary and error-type classifiers, and report results in a poster.
+- **Data-access check:** The repo and schema are accessible, and the team has already downloaded and inspected the JSON data. 
+- **Largest current risk:** No target labels exist for training purpose, and the might requires long hours of manual labeling
+- **Backup plan:** Priorize binary classification if necessary
 - **Next two actions:**
-  1. [Action — responsible team member(s) — approximate target date]
-  2. [Action — responsible team member(s) — approximate target date]
+  1. Clean the dataset, because it's huge and contain many extraneous information.
+  2. Create invalid proofs using the proofs in the dataset. Create target labels.
 
-## Possible Text-Analysis Method and Evaluation (Optional)
+## Possible Text-Analysis Method and Evaluation
 
-[If your team already has ideas, name one or more text-analysis methods you may try. Then explain how you might judge whether the output performs well or is useful—for example, with a baseline, labeled test examples, appropriate metrics, retrieval checks, human review, error analysis, or comparison across approaches. It is acceptable to write “Not yet decided” and ask for guidance below.]
+Planned workflow: 
+(1) Extract and clean theorem–proof pairs while retaining mathematical notation; 
+(2) create manually checked valid and synthetically flawed examples; 
+(3) compare TF-IDF + Logistic Regression with a fine-tuned BERT-family classifier for binary validity and error-type prediction; 
+(4) report precision, recall, macro-F1, and confusion matrices for each task;
 
 ## Questions for the Instructor
 
-- [What feedback would help your team move forward? You might ask about scope, data feasibility, methods, evaluation, tools, or project risks.]
-- [Add another question, or write “No additional questions at this time.”]
+1. Is this realistic? Would the final results be significant? Since mathematical proofs contain many notations and symbols beyond natural language, models might not be able to correctly embed and "understand" the proofs. Instead, they might rely on shortcut learning by simply looking for keywords to perform the classification tasks. This is also why I decided not to do proof-method classification.
+
+2. Does this project meet the course project requirements?
 
 ## AI-Use Statement
 
-[Identify any generative or agentic AI tool used to prepare this brief, its purpose, the work completed before consulting it, the advice incorporated, and how the output was verified. If your team did not use such a tool, state that clearly.]
+I used ChatGPT to help me find specific datasets, understand the NaturalProofs research paper, and write this README. The initial project idea and main direction were my own, although AI also helped me clarify and finalize the idea and project scope. I reviewed the AI-generated suggestions and checked the relevant information against the original paper and examples from the downloaded dataset.
+
+## References
+- Welleck, S., Liu, J., Le Bras, R., Hajishirzi, H., Choi, Y., & Cho, K. (2021). NaturalProofs: Mathematical Theorem Proving in Natural Language. NeurIPS Datasets and Benchmarks. https://arxiv.org/abs/2104.01112
+- NaturalProofs code and dataset: https://github.com/wellecks/naturalproofs
