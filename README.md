@@ -60,12 +60,12 @@ $$
 T_n = \sum_{i=1}^{n} i = \frac{n(n+1)}{2}.
 $$
 #### Example 1 — Valid Proof (Original, Simplified)
-- Proof: Let $ S=1+2+\cdots+n$ Writing this sum in both forward and reverse order gives $ \(2S=n(n+1)\)$. Dividing both sides by 2, we obtain $ S=\frac{n(n+1)}{2}$.
+- Proof: Let $S=1+2+\cdots+n$ Writing this sum in both forward and reverse order gives $\(2S=n(n+1)\)$. Dividing both sides by 2, we obtain $S=\frac{n(n+1)}{2}$.
 - Desired output:
   - Validity: Valid
   - Error Type: None
 #### Example 2 — Invalid Logical/Mathematical Inference (Modified)
-- Proof: Let $ S=1+2+\cdots+n$. Pairing the terms gives $$2S=n(n+1)$$. Therefore, $S=n(n+1)$.
+- Proof: Let $S=1+2+\cdots+n$. Pairing the terms gives $$2S=n(n+1)$$. Therefore, $S=n(n+1)$.
 - Desired output:
   - Validity: Invalid
   - Error Type: Invalid Inference
