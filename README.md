@@ -52,38 +52,30 @@ Access, licensing, privacy, or redistribution considerations: GitHub code is MIT
 
 ### Examples
 
-The following examples are based on **Theorem ID 0: "Closed Form for Triangular Numbers"** from the NaturalProofs ProofWiki dataset. This theorem has multiple proofs in the original dataset.
+The following examples are based on Theorem ID 0: "Closed Form for Triangular Numbers" from the NaturalProofs ProofWiki dataset. This theorem has multiple proofs in the original dataset.
 
-**Theorem:** For every positive integer \(n\),
-
+Theorem: For every positive integer \(n\),
 \[
 T_n = \sum_{i=1}^{n} i = \frac{n(n+1)}{2}.
 \]
-
-**Example 1 — Valid Proof (Original, Simplified)**
-
-- **Proof:** Let \(S=1+2+\cdots+n\). Writing this sum in both forward and reverse order gives \(2S=n(n+1)\). Dividing both sides by 2, we obtain \(S=\frac{n(n+1)}{2}\).
-- **Desired output:**
-  - Validity: `Valid`
-  - Error Type: `None`
-
-**Example 2 — Invalid Logical/Mathematical Inference (Modified)**
-
-- **Proof:** Let \(S=1+2+\cdots+n\). Pairing the terms gives \(2S=n(n+1)\). Therefore, \(S=n(n+1)\).
-- **Desired output:**
-  - Validity: `Invalid`
-  - Error Type: `Invalid Inference`
-- **Reason:** The final conclusion incorrectly omits division by 2.
-
-**Example 3 — Missing Essential Justification (Modified)**
-
-- **Proof:** When \(n=1\), we have \(T_1=1=\frac{1(1+1)}{2}\). Therefore, the formula holds for every positive integer \(n\).
-- **Desired output:**
-  - Validity: `Invalid`
-  - Error Type: `Missing Essential Justification`
-- **Reason:** Verifying only the base case does not establish the formula for all positive integers.
-
-**Note:** Example 1 is adapted from an existing proof in NaturalProofs. Examples 2 and 3 are synthetically modified to illustrate potential error categories. NaturalProofs does not provide validity or error-type labels, so modified examples must be reviewed before being used for training or evaluation.
+Example 1 — Valid Proof (Original, Simplified)
+- Proof: Let \(S=1+2+\cdots+n\). Writing this sum in both forward and reverse order gives \(2S=n(n+1)\). Dividing both sides by 2, we obtain \(S=\frac{n(n+1)}{2}\).
+- Desired output:
+  - Validity: Valid
+  - Error Type: None
+Example 2 — Invalid Logical/Mathematical Inference (Modified)
+- Proof: Let \(S=1+2+\cdots+n\). Pairing the terms gives \(2S=n(n+1)\). Therefore, \(S=n(n+1)\).
+- Desired output:
+  - Validity: Invalid
+  - Error Type: Invalid Inference
+- Reason: The final conclusion incorrectly omits division by 2.
+Example 3 — Missing Essential Justification (Modified)
+- Proof: When \(n=1\), we have \(T_1=1=\frac{1(1+1)}{2}\). Therefore, the formula holds for every positive integer \(n\).
+- Desired output:
+  - Validity: Invalid
+  - Error Type: Missing Essential Justification
+- Reason: Verifying only the base case does not establish the formula for all positive integers.
+Note: Example 1 is adapted from an existing proof in NaturalProofs. Examples 2 and 3 are synthetically modified to illustrate potential error categories. NaturalProofs does not provide validity or error-type labels, so modified examples must be reviewed before being used for training or evaluation.
 
 
 ### Fit with the Task
