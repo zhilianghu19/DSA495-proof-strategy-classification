@@ -90,8 +90,8 @@ NaturalProofs provides theorem–proof pairs but not validity labels. We will ex
 - **Largest current risk:** No target labels exist for training purpose, and the might requires long hours of manual labeling
 - **Backup plan:** Priorize binary classification if necessary
 - **Next two actions:**
-  1. Clean the dataset, because it's huge and contain many extraneous information.
-  2. Create invalid proofs using the proofs in the dataset. Create target labels.
+  1. Clean the dataset, because it's huge and contain many extraneous information. OCT 25
+  2. Create invalid proofs using the proofs in the dataset. Create target labels. OCT 30
 
 ## Possible Text-Analysis Method and Evaluation
 
